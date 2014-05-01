@@ -8,16 +8,14 @@
 <body>
 <h1>工作列表</h1>
 <p>从BYRJob版获取的数据</p>
-{% if job_list %}
 <div id = "update-holder">
+{% if job_list %}
 	{% for object in job_list %}
 	<div class="update {% cycle 'even' 'odd' %}" id="{{object.job_id}}">
-			<a href="{{object.url}}" target="view_window">{{object.text|linebreaksbr}}</a>
+		<a href="{{object.url}}" target="view_window">{{object.text}}</a>
 	</div>
 	{% endfor %}
-{% else %}
-<p>没有新数据</p>
-</div>
 {% endif %}
+</div>
 </body>
 </html>
