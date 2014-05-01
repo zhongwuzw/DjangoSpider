@@ -1,28 +1,22 @@
 <html>
 <head>
-	<title>Live Update</title>
+	<title>Job List</title>
 	<link rel="stylesheet" type="text/css" href="/static/css/base.css">
 	<script type="text/javascript" src="/static/js/jquery.js"></script>
 	<script type="text/javascript" src="/static/js/base.js"></script>
 </head>
 <body>
-<h1>Welcome to the Live Update</h1>
-<p>This site will automatically refresh itselt every minute with new content - Please <b>do not</b> reload the page</p>
-{% if update_list %}
+<h1>工作列表</h1>
+<p>从BYRJob版获取的数据</p>
+{% if job_list %}
 <div id = "update-holder">
-	{% for object in update_list %}
-	<div class="update {% cycle 'even' 'odd' %}" id="{{ object.id }}">
-		<div class="timestamp">
-			{{object.timestamp|date:"Y-m-d H:i:s"}}
-		</div>
-		<div class="text">
-			{{object.text|linebreaksbr}}
-		</div>
-		<div class="clear"></div>
+	{% for object in job_list %}
+	<div class="update {% cycle 'even' 'odd' %}" id="{{object.job_id}}">
+			<a href="{{object.url}}" target="view_window">{{object.text|linebreaksbr}}</a>
 	</div>
 	{% endfor %}
 {% else %}
-<p>NO update - Check later</p>
+<p>没有新数据</p>
 </div>
 {% endif %}
 </body>
