@@ -1,21 +1,17 @@
-<html>
-<head>
-	<title>Job List</title>
-	<link rel="stylesheet" type="text/css" href="/static/css/base.css">
-	<script type="text/javascript" src="/static/js/jquery.js"></script>
-	<script type="text/javascript" src="/static/js/base.js"></script>
-</head>
-<body>
-<h1>工作列表</h1>
-<p>从BYRJob版获取的数据</p>
-<div id = "update-holder">
-{% if job_list %}
-	{% for object in job_list %}
-	<div class="update {% cycle 'even' 'odd' %}" id="{{object.job_id}}">
-		<a href="{{object.url}}" target="view_window">{{object.text}}</a>
-	</div>
-	{% endfor %}
-{% endif %}
-</div>
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+      <div class="starter-template">
+        <h1>最新工作信息：</h1>
+        <div id = "update-holder" class = "leader">
+        {% if job_list %}
+          {% for object in job_list %}
+            <div class="update {% cycle 'even' 'odd' %}" id="{{object.job_id}}">
+            <a href="{{object.url}}" target="view_window">{{object.text}}</a>
+            </div>
+          {% endfor %}
+        {% endif %}
+        </div>
+      </div>
+    </div><!-- /.container1 -->
+{% endblock %}
