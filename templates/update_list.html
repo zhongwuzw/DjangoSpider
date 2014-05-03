@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
+    {# <div class="container"> #}
     <div class="container">
       <div class="starter-template">
         <h1>最新工作信息：</h1>
         <div id = "update-holder" class = "leader">
         {% if job_list %}
           {% for object in job_list %}
-            <div class="update {% cycle 'even' 'odd' %}" id="{{object.job_id}}">
+            <div class="col-md-6 {% cycle 'even' 'odd' %}" id="{{object.job_id}}">
             <a href="{{object.url}}" target="view_window">{{object.text}}</a>
             </div>
           {% endfor %}

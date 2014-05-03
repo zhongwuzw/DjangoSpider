@@ -1,11 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.views.generic.base import TemplateView
 from django.views.generic.base import View
 from django.views.generic.list import ListView
 from bs4 import BeautifulSoup
 from django.http.response import HttpResponse
 from django.http.response import HttpResponseNotModified
-from JobSpider.models import CrawlerInfo
+from JobSpider.models import CrawlerInfo,CrawlerInfoQH
 from django.core import serializers
 
 import requests
@@ -14,8 +14,21 @@ import re
 class HomePage(ListView):
     template_name = 'update_list.html'
     paginate_by = 20
-    model = CrawlerInfo
+#     model = CrawlerInfo
+    queryset = CrawlerInfo.objects.all()
     context_object_name = 'job_list'
+    
+    def get_queryset(self):
+        if self.request.GET.get('name'):
+            return CrawlerInfoQH.objects.all()
+        return CrawlerInfo.objects.all()
+    
+    def get_context_data(self,**kwargs):
+        context = super(HomePage,self).get_context_data(**kwargs)
+        context['requests'] = self.request
+#         if self.request.GET.get('name'):
+#             context['test_qing_hua'] = 3
+        return context
     
 class GetLatestInfo(TemplateView):
     def get(self,request,**kwargs):

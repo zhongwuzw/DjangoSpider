@@ -34,16 +34,33 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a href="#">北邮人</a>
+                        <li id="byr_link">
+                            <a href="/home/">北邮人</a>
                         </li>
-                        <li>
-                            <a href="">水木清华</a>
+                        <li id="qing_hua_link">
+                            <a href="/home/?name=QingHua">水木清华</a>
                         </li>
-                        <li>
+                        <li id="bei_da_link">
                             <a href="">北大燕园</a>
                         </li>
                     </ul>
+                    {% if requests.user.is_authenticated %}
+                    <ul class="nav navbar-right">
+                       <li>
+                            <a href="">{{requests.user}}</a>
+                        </li>
+                    </ul>
+                    {% else %}
+                    <form class="navbar-form navbar-right" action="/login" method="post" role="form">
+                        <div class="form-group">
+                          <input type="text" placeholder="用户名" class="form-control">
+                        </div>
+                        <div class="form-group">
+                          <input type="password" placeholder="密码" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-success">登录</button>
+                    </form>    
+                    {% endif %}
                 </div><!--/.nav-collapse -->
             </div>
         </div>
@@ -57,7 +74,7 @@
         <script src="/static/bootstrap-master/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/static/js/base.js"></script>
         <div id="footer">
-            <div class="container">
+            <div class="col-md-8">
                 <span class="text-muted">&nbsp;&nbsp;&nbsp;联系我...</span>
                 <a href="mailto:#">zhongwuzw20@gmail.com</a>
             </div>
