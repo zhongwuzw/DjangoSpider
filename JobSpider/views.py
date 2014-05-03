@@ -13,7 +13,7 @@ import re
 
 class HomePage(ListView):
     template_name = 'update_list.html'
-#     paginate_by = 20
+    paginate_by = 20
     model = CrawlerInfo
     context_object_name = 'job_list'
     
