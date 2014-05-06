@@ -31,24 +31,24 @@ class UrlList(models.Model):
     url = models.URLField(primary_key = True)
     
     def __unicode__(self):
-        return "%s" % self.url
+        return u"%s" % self.url
     
 admin.site.register(UrlList)
 
 class WordList(models.Model):
-    word = models.CharField(max_length = 1)
+    word = models.CharField(max_length = 1,primary_key = True)
     
     def __unicode__(self):
-        return "%s" % self.word
+        return u"%s" % self.word
     
 admin.site.register(WordList)
 
 class Link(models.Model):
-    from_id = models.ForeignKey(UrlList)
-    to_id = models.ForeignKey(UrlList)
+    from_id = models.URLField()
+    to_id = models.URLField()
     
     def __unicode__(self):
-        return "From %s to %s" % (self.from_id,self.to_id)
+        return u"From %s to %s" % (self.from_id,self.to_id)
     
 admin.site.register(Link)
 
@@ -57,11 +57,16 @@ class LinkWords(models.Model):
     link_id = models.ForeignKey(Link)
     
     def __unicode__(self):
-        return "%s,%s" % (self.word_id,self.link_id)
+        return "u%s,%s" % (self.word_id,self.link_id)
     
 admin.site.register(LinkWords)
 
-class WorldLocation(models.Model):
+class WordLocation(models.Model):
     url_id = models.ForeignKey(UrlList)
     word_id = models.ForeignKey(WordList)
     location = models.CharField(max_length = 255)
+    
+    def __unicode__(self):
+        return u"%s,%s,%s" % (self.url_id,self.word_id,self.location)
+    
+admin.site.register(WordLocation)
