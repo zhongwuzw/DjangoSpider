@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+    {# <div class="container"> #}
+    <div class="container">
+      <div class="starter-template">
+        <h1>最新工作信息：</h1>
+        <div id = "update-holder" class = "leader">
+        {% if job_list %}
+          {% for object in job_list %}
+            <div class="col-md-6 {% cycle 'even' 'odd' %}" id="{{object.job_id}}">
+            <a href="{{object.url}}" target="view_window">{{object.text}}</a>
+            </div>
+          {% endfor %}
+        {% endif %}
+        </div>
+        {% if is_paginated %}
+        <div>
+          <span>
+            {% if page_obj.has_previous %}
+              <a href="/home/?page={{ page_obj.previous_page_number }}">上一页</a>
+            {% endif %}
+            {% if page_obj.has_next %}
+              <a href="/home/?page={{ page_obj.next_page_number }}">下一页</a>
+            {% endif %}
+            <span>
+              第{{page_obj.number}}页，共{{page_obj.paginator.num_pages}}页
+            </span>
+          </span>
+        </div>
+        {% endif %}
+      </div>
+    </div><!-- /.container1 -->
+{% endblock %}

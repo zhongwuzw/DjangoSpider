@@ -74,3 +74,24 @@ class Crawler:
                             link_text = self.getTextOnly(link)
                             self.addLinkRef(page, url, link_text)
             pages = new_pages
+            
+
+class Searcher:
+    def __init__(self):
+        pass
+    #获取查询串的查询结果
+    def getMatchRows(self,q):
+        text = q
+        final_li = []
+        li = [text[i] for i in range(len(text)) if text[i] >= u'\u4e00' and text[i] <= u'\u9fff']
+        for q_part in li:
+            s = set([])
+            p = WordList.objects.get(word = q_part)
+            for i in p.wordlocation_set.all():
+                s.add(i.url_id.url)
+            final_li.append(s)
+        final_set = final_li[0]
+        for x in range(len(final_li) - 1):
+            final_set = final_set.intersection(final_li[x+1])
+        print final_set
+

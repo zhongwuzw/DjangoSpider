@@ -57,7 +57,7 @@ class LinkWords(models.Model):
     link_id = models.ForeignKey(Link)
     
     def __unicode__(self):
-        return "u%s,%s" % (self.word_id,self.link_id)
+        return u"%s,%s" % (self.word_id,self.link_id)
     
 admin.site.register(LinkWords)
 
