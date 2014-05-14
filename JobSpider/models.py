@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib import admin
 
+class FileForm(models.Model):
+    title = models.CharField(max_length = 100)
+    file = models.FileField(upload_to='files')
+
 class CrawlerInfo(models.Model):
     url = models.URLField(primary_key = True)
     text = models.CharField(max_length = 255)

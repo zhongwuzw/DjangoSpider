@@ -3,11 +3,13 @@ from django.views.generic.base import TemplateView
 from django.views.generic.base import View
 from django.views.generic.list import ListView
 from bs4 import BeautifulSoup
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.http.response import HttpResponseNotModified
 from JobSpider.models import CrawlerInfo,CrawlerInfoQH
 from django.core import serializers
-
+from JobSpider.forms import UpLoadFileForm
+from JobSpider.models import FileForm
+from django.core.urlresolvers import reverse
 import requests
 import re
 
@@ -18,6 +20,23 @@ class HomePage(ListView):
     queryset = CrawlerInfo.objects.all()
     context_object_name = 'job_list'
     
+    def handleUploadedFile(self,f):
+        file_path = 'E:/DjangoSpider/JobSpider/files/' + f.name
+        with open(file_path,'wb+') as info:
+            print f.name
+            for chunk in f.chunks():
+                info.write(chunk)
+    
+    def post(self,request,*args,**kwargs):
+        form = UpLoadFileForm(request.POST,request.FILES)
+        if form.is_valid():
+#             self.handleUploadedFile(request.FILES['file'])
+            title = request.POST.get('title')
+            instance = FileForm(title = title,file = request.FILES['file'])
+            instance.save()
+#         return render_to_response('update_list.html')
+            return HttpResponseRedirect(reverse("home_page"))
+    
     def get_queryset(self):
         if self.request.GET.get('name'):
             return CrawlerInfoQH.objects.all()
@@ -25,7 +44,14 @@ class HomePage(ListView):
     
     def get_context_data(self,**kwargs):
         context = super(HomePage,self).get_context_data(**kwargs)
-        context['requests'] = self.request
+        form = UpLoadFileForm()
+        if self.request.POST:
+            print 'postshitsadasdasdasdas'
+        else:
+            print 'getdasdas'
+        
+        context['form'] = form
+        context['test'] = 'test'
 #         if self.request.GET.get('name'):
 #             context['test_qing_hua'] = 3
         return context
