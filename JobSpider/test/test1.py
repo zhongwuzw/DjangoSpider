@@ -1,9 +1,8 @@
-from JobSpider.forms import UpLoadFileForm
-import pickle
-class Foo:
-    attr = 'a class attr'
-    
-t = UpLoadFileForm()
-print t.as_p()
-pickle_string = pickle.dumps(Foo)
-print pickle_string
+from django import forms
+class CalendarWidget(forms.TextInput):
+    class Media:
+        css = {'all':{'pretty.css'},}
+        js = ('animations.js','action.js')
+        
+w = CalendarWidget()
+print w.media
