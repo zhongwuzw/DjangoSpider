@@ -47,11 +47,11 @@ class HomePage(ListView):
     def get_context_data(self,**kwargs):
         context = super(HomePage,self).get_context_data(**kwargs)
         form = UpLoadFileForm()
+#         form_set = formset_factory(UpLoadFileForm,extra = 2,can_delete = True)
         if self.request.POST:
             print 'post'
         else:
             print 'get'
-#         print self.request.session
         self.request.session[0] = 'bar'
         print self.request.session[0]
         context['form'] = form
