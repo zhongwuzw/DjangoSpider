@@ -10,6 +10,7 @@ from django.core import serializers
 from JobSpider.forms import UpLoadFileForm
 from JobSpider.models import FileForm
 from django.core.urlresolvers import reverse
+from django.forms.formsets import formset_factory
 import requests
 import re
 
@@ -31,11 +32,12 @@ class HomePage(ListView):
         form = UpLoadFileForm(request.POST,request.FILES)
         if form.is_valid():
 #             self.handleUploadedFile(request.FILES['file'])
-            title = request.POST.get('title')
+#             title = request.POST.get('title')
+            title = form.cleaned_data['title']
             instance = FileForm(title = title,file = request.FILES['file'])
             instance.save()
 #         return render_to_response('update_list.html')
-            return HttpResponseRedirect(reverse("home_page"))
+        return HttpResponseRedirect(reverse("home_page"))
     
     def get_queryset(self):
         if self.request.GET.get('name'):
@@ -46,10 +48,12 @@ class HomePage(ListView):
         context = super(HomePage,self).get_context_data(**kwargs)
         form = UpLoadFileForm()
         if self.request.POST:
-            print 'postshitsadasdasdasdas'
+            print 'post'
         else:
-            print 'getdasdas'
-        
+            print 'get'
+#         print self.request.session
+        self.request.session[0] = 'bar'
+        print self.request.session[0]
         context['form'] = form
         context['test'] = 'test'
 #         if self.request.GET.get('name'):
