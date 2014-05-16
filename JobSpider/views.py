@@ -11,8 +11,31 @@ from JobSpider.forms import UpLoadFileForm
 from JobSpider.models import FileForm
 from django.core.urlresolvers import reverse
 from django.forms.formsets import formset_factory
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 import requests
 import re
+
+class Login(View):
+    def post(self,request,*args,**kwargs):
+        user_name = request.POST['user_name']
+        pass_word = request.POST['pass_word']
+        user = authenticate(username = user_name,password = pass_word)
+        
+        if user is not None:
+            if user.is_active:
+                login(request,user)
+                print "login success!"
+                return HttpResponseRedirect(reverse('home_page'))
+            else:
+                return HttpResponseRedirect(reverse('home_page'))
+        return HttpResponseRedirect(reverse('home_page'))
+    
+class Logout(View):
+    def get(self,request,*args,**kwargs):
+        logout(request)
+        return HttpResponseRedirect(reverse('home_page'))
 
 class HomePage(ListView):
     template_name = 'update_list.html'
@@ -20,6 +43,10 @@ class HomePage(ListView):
 #     model = CrawlerInfo
     queryset = CrawlerInfo.objects.all()
     context_object_name = 'job_list'
+    
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(HomePage,self).dispatch(request, *args, **kwargs)
     
     def handleUploadedFile(self,f):
         file_path = 'E:/DjangoSpider/JobSpider/files/' + f.name
@@ -47,13 +74,13 @@ class HomePage(ListView):
     def get_context_data(self,**kwargs):
         context = super(HomePage,self).get_context_data(**kwargs)
         form = UpLoadFileForm()
+        print self.request.path
 #         form_set = formset_factory(UpLoadFileForm,extra = 2,can_delete = True)
         if self.request.POST:
             print 'post'
         else:
             print 'get'
-        self.request.session[0] = 'bar'
-        print self.request.session[0]
+        context['request'] = self.request
         context['form'] = form
         context['test'] = 'test'
 #         if self.request.GET.get('name'):
