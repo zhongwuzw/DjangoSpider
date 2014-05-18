@@ -7,7 +7,7 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
-
+#coding=utf8
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -74,7 +74,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'zh-cn'
 
-TIME_ZONE = 'Asia/Shanghai'
+# TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -82,6 +82,17 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+
+EMAIL_HOST = 'smtp.sina.com'            
+EMAIL_PORT = 25                         
+EMAIL_HOST_USER = 'testfordjango@sina.com'  
+EMAIL_HOST_PASSWORD = ''   
+EMAIL_SUBJECT_PREFIX = u'[Django]'       
+EMAIL_USE_TLS = True                   
+
+SERVER_EMAIL = 'zhongwuzw@qq.com'      
+LOGIN_REDIRECT_URL = '/home'   
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/

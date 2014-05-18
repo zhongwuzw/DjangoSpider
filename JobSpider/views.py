@@ -14,8 +14,28 @@ from django.forms.formsets import formset_factory
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.core.signals import request_finished
+from django.dispatch import receiver
 import requests
 import re
+import datetime
+import csv
+
+# @receiver(request_finished)
+def myCallBack(sender,**kwargs):
+    print "Request finished"
+
+request_finished.connect(myCallBack,dispatch_uid = "my_unique")
+
+class CsvTest(View):
+    def get(self,request,*args,**kwargs):
+        response = HttpResponse(content_type = 'text/csv')
+        response['Content-Disposition'] = 'attachment;filename="zw.csv"'
+        
+        writer = csv.writer(response)
+        writer.writerow(['First row','foo','bar','baz'])
+        writer.writerow(['sencond row','a','b'])
+        return response
 
 class Login(View):
     def post(self,request,*args,**kwargs):
@@ -74,7 +94,7 @@ class HomePage(ListView):
     def get_context_data(self,**kwargs):
         context = super(HomePage,self).get_context_data(**kwargs)
         form = UpLoadFileForm()
-        print self.request.path
+        print datetime.datetime.now()
 #         form_set = formset_factory(UpLoadFileForm,extra = 2,can_delete = True)
         if self.request.POST:
             print 'post'
