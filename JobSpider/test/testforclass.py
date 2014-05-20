@@ -10,9 +10,11 @@ class B():
 class A(B):
     def __init__(self):
         self.a = 1
+        b = 2
         
     def test1(self):
         print '3'
+        print self.a
         
 a = A()
 print a.test()

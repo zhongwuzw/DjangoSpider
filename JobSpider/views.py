@@ -16,6 +16,9 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.signals import request_finished
 from django.dispatch import receiver
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic.edit import CreateView
 import requests
 import re
 import datetime
@@ -66,6 +69,7 @@ class HomePage(ListView):
     
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        messages.add_message(request,messages.INFO,'Jobs')
         return super(HomePage,self).dispatch(request, *args, **kwargs)
     
     def handleUploadedFile(self,f):

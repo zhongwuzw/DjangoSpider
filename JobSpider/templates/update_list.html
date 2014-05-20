@@ -6,6 +6,11 @@
       <div class="starter-template">
         <h1>最新工作信息：</h1>
         <div id = "update-holder" class = "leader">
+        {% if messages %}
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+        {% endif %}
         {% if job_list %}
           {% for object in job_list %}
             <div class="col-md-6 {% cycle 'even' 'odd' %}" id="{{object.job_id}}">
